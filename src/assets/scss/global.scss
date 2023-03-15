@@ -1,0 +1,81 @@
+$color-blue:#70a1ff;
+$color-dark-blue:#3742fa;
+$color-nav:#fff;
+$color-main-bg:#f4f4f4;
+$color-font:#625a5a;
+.fade-enter-from{
+    opacity: 0;
+}
+.fade-enter-active{
+    transition: all .5s;
+}
+.fade-enter-to{
+    opacity: 1;
+}
+.fade-leave-from{
+    opacity: 1;
+}
+.fade-leave-active{
+    transition: all .5s;
+}
+.fade-leave-to{
+    opacity: 0;
+}
+
+.nav-popper{
+    .board-childs{
+        .el-tag{
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+    }
+}
+
+// 标签样式
+.normal-tag{
+    &:hover{
+        color: #fff;
+        background-color: $color-blue;
+    }
+}
+.tag-active{
+    color: #fff;
+    background-color: $color-blue;
+}
+
+// 面包屑样式
+.el-breadcrumb{
+    font-size: 16px;
+    .el-breadcrumb__item{
+        .el-breadcrumb__inner.is-link{
+            color: $color-blue;
+            font-weight: 400;
+            &:hover{
+                color: $color-dark-blue;
+            }
+        }
+        
+    }
+    .el-breadcrumb__item:last-child .el-breadcrumb__inner{
+        color: $color-font;
+        font-weight: 400;
+    }
+}
+
+.github-markdown-body{
+    padding: 16px 32px;
+}
+
+// 文字按钮样式
+.text-btn{
+    color: $color-blue;
+    cursor: pointer;
+    &:hover{
+        color: $color-dark-blue;
+        text-decoration: underline;
+    }
+}
+.text-btn-active{
+    cursor: pointer;
+    color: $color-dark-blue;
+}
