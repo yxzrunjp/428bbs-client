@@ -57,6 +57,7 @@ export const postArticle = async (params) => {
     return request({
         url: "/forum/postArticle",
         params,
+        dataType:'file'
     })
 }
 
@@ -65,6 +66,7 @@ export const updateArticle = async (params) => {
     return request({
         url: "/forum/updateArticle",
         params,
+        dataType:'file',
     })
 }
 

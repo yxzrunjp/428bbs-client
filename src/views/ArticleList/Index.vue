@@ -35,7 +35,7 @@
                                 <ArticleItem :data="item" v-for="item in article.list" :key="item.articleId" />
                             </template>
                             <template v-else>
-                                <el-empty description="没有数据" />
+                                <el-empty description="暂无帖子" />
                             </template>
                         </template>
                     </el-skeleton>

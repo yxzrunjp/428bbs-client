@@ -21,11 +21,11 @@ const emit = defineEmits(['upload','update:modelValue'])
 const src = ref('')
 
 const handleUpload = ({ file }) => {
+    emit('update:modelValue',file)
     const reader = new FileReader()
     reader.readAsDataURL(file)
     reader.onload = ({target}) => {
         emit('upload',file,target.result)
-        emit('update:modelValue',file)
     }
 }
 </script>

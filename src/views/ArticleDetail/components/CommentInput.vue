@@ -13,9 +13,9 @@
         <template v-if="showOptions">
             <div class="options" v-if="!srcList.length">
                 <div class="option-item">
-                    <Upload @upload="handleUpload">
+                    <UploadImg @upload="handleUpload">
                         <i class="iconfont icon-image"></i>
-                    </Upload>
+                    </UploadImg>
                 </div>
             </div>
             <div class="upload-content" v-else>
@@ -30,7 +30,7 @@
 
 <script setup>
 import { reactive, ref, inject, getCurrentInstance } from 'vue'
-import Upload from '@/components/Upload.vue';
+import UploadImg from '@/components/UploadImg.vue';
 import { postComment } from '@/api/comment.js'
 import { useCheckLoginHook } from '@/utils/hooks.js'
 import CommentImage from './CommentImage.vue';

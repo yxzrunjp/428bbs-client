@@ -9,10 +9,13 @@
             </div>
         </template>
         <template v-else>
-            <el-upload name="file" :multiple="false" :accept="accept.join(',')" :http-request="handleUpload"
-                :show-file-list="false">
-                <el-button>上传</el-button>
-            </el-upload>
+            <div class="upload-btn">
+                <el-upload name="file" :multiple="false" :accept="accept.join(',')" :http-request="handleUpload"
+                    :show-file-list="false">
+                    <el-button type="primary" plain>上传</el-button>
+                </el-upload>
+                <span class="tip">仅支持zip/rar类型的文件</span>
+            </div>
         </template>
     </div>
 </template>
@@ -65,4 +68,15 @@ const removeFile = () => {
             }
         }
     }
-}</style>
+    .upload-btn{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        .tip{
+            margin-left: 10px;
+            font-size: 12px;
+            color: $color-font;
+        }
+    }
+}
+</style>
