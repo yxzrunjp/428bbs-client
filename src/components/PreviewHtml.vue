@@ -27,12 +27,12 @@ const highlightCode = () => {
     })
 }
 
-const imgUrls = reactive([])
+let imgUrls = []
 let imgChildren = []
 // 对图片进行特殊处理
 const setImages = () => {
     // 清空图片URL
-    imgUrls.splice(0, imgUrls.length)
+    imgUrls = []
     imgChildren = document.querySelectorAll('.github-markdown-body p img')
     imgChildren.forEach(item => {
         const src = item.getAttribute('src')
@@ -74,10 +74,10 @@ onBeforeUnmount(() => {
 })
 // 获取标题
 const titleTag = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
-const menuArr = reactive([])
+let menuArr = []
 const getTitle = () => {
     // 清空menus
-    menuArr.splice(0, menuArr.length)
+    menuArr = []
     const children = Array.from(document.querySelector('.github-markdown-body').children)
     children.forEach((el, idx) => {
         const elTag = el.tagName.toLowerCase()

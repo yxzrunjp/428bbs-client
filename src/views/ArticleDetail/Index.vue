@@ -248,8 +248,8 @@ const closeImg = () => {
 }
 // 文章内容加载完成
 const htmlLoad = (menu, imgs) => {
-    Object.assign(menuArr, menu)
-    Object.assign(urlList, imgs)
+    menuArr.splice(0,menuArr.length,...menu)
+    urlList.splice(0,urlList.length,...imgs)
 }
 // 目录锚点跳转
 const titleJump = (id) => {
