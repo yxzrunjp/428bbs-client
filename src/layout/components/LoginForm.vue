@@ -110,6 +110,10 @@ const submitLogin = async () => {
     // 备份登录信息
     // proxy.VueCookies.set('userInfo', userInfo, '7d')
     proxy.Message.success('登录成功')
+    setTimeout(()=>{
+        // 重新加载页面
+        document.location.reload()
+    },500)
     closeForm()
 }
 
@@ -139,14 +143,10 @@ const getCookiesLoginInfo = () => {
 onMounted(() => {
     changeCode()
     getCookiesLoginInfo()
-    // console.log(`login mounted`);
-})
-onBeforeUnmount(() => {
-    // console.log(`login unmounted`);
 })
 
+
 const reset = () => {
-    // console.log(`reset`);
 }
 defineExpose({
     reset

@@ -158,10 +158,6 @@ const handleOption = () => {
 
 onMounted(() => {
     changeCode()
-    // console.log(`update mounted`);
-})
-onBeforeUnmount(() => {
-    // console.log(`update unmounted`);
 })
 </script>
 

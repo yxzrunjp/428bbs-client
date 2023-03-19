@@ -177,7 +177,7 @@ const getArticleDetail = async () => {
     }
     const result = await getUpdateArticleInfo(params)
     if (!result) {
-        console.log(`回退到首页`);
+        router.replace('/')
         return
     }
     Object.assign(articleDetail, result.data)
@@ -241,7 +241,6 @@ const boardProps = {
     checkStrictly: true,
 }
 const handleBoardChange = (e) => {
-    console.log(e);
 }
 // 获取能发布的板块信息
 const getBoard = async () => {
@@ -258,26 +257,10 @@ const handleUpload = (file, dataUrl) => {
     imgSrc.value = dataUrl
 }
 
-// 监听路由变化
-// const cancel = watchEffect((fn)=>{
-//     console.log(`a`,route.params);
-//     fn(()=>{
-//         console.log(`监听触发`);
-//     })
-// })
-// onBeforeMount(()=>{
-//     cancel()
-// })
-
-
-
 const init = async () => {
     await getBoard()
     if (articleId.value) {
-        console.log(`修改文章`);
         await getArticleDetail()
-    } else {
-        console.log(`新增文章`);
     }
 }
 init()

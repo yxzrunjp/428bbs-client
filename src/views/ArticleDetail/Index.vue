@@ -15,7 +15,10 @@
         <div class="page-content">
             <div class="left">
                 <div class="article-info">
-                    <div class="article-title">{{ forumArticle.title }}</div>
+                    <div class="article-title">
+                        <div class="title-text">{{ forumArticle.title }}</div>
+                        <el-tag v-if="forumArticle.status === 0" type="warning" effect="plain" class="top-tag">待审核</el-tag>
+                    </div>
                     <div class="author-info">
                         <div class="author-left">
                             <Avatar :userId="forumArticle.userId" :size="50"></Avatar>
@@ -32,11 +35,18 @@
                                 <span>{{ forumArticle.userIpAddress }}</span>
                                 <i class="iconfont icon-eye-solid"></i>
                                 <span>{{ forumArticle.readCount }}</span>
+                                <template v-if="forumArticle.userId === userId">
+                                    <router-link :to="`/article/${forumArticle.articleId}`">
+                                        <span class="edit text-btn">
+                                            <i class="iconfont icon-edit"></i>
+                                            编辑
+                                        </span>
+                                    </router-link>
+                                </template>
                             </div>
                         </div>
                     </div>
-                    <!-- <v-md-preview-html :html="forumArticle.content" preview-class="github-markdown-body" /> -->
-                    <PreviewHtml :html="forumArticle.content" ref="previewRef" @click="previewClick" />
+                    <PreviewHtml :html="forumArticle.content" @click="previewClick" @load="htmlLoad" />
                 </div>
                 <div class="file-info" v-if="attachment" id="file-box">
                     <div>附件</div>
@@ -55,7 +65,20 @@
                     <CommentCmp :articleId="articleId" @commitComment="commitComment" />
                 </div>
             </div>
-            <div class="right"></div>
+            <div class="right" :style="{ transform: `translateY(${top}px)` }">
+                <div class="menu-title">目录</div>
+                <div class="menu-list">
+                    <template v-if="menuArr.length">
+                        <div :class="['menu-item']" @click="titleJump(menu.id)"
+                            :style="{ paddingLeft: `${menu.level * 10}px` }" v-for="menu in menuArr" :key="menu.id">
+                            {{ menu.text }}
+                        </div>
+                    </template>
+                    <template v-else>
+                        <div class="not-menu">暂无目录信息</div>
+                    </template>
+                </div>
+            </div>
         </div>
         <div class="article-options" :style="{ transform: `translateY(${top}px)` }">
             <div class="option-item" @click="handlePraise">
@@ -77,7 +100,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, inject, toRefs, getCurrentInstance, provide } from 'vue'
+import { ref, reactive, inject, toRefs, getCurrentInstance, provide, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { ArrowRight } from '@element-plus/icons-vue'
@@ -112,7 +135,7 @@ const articleData = reactive({
     attachment: null,
 })
 const { forumArticle, attachment, haveLike } = toRefs(articleData)
-provide('forumArticle',forumArticle)
+provide('forumArticle', forumArticle)
 // 获取文章信息
 const getArticle = async () => {
     const result = await getArticleDetail({
@@ -200,38 +223,37 @@ const downLoad = () => {
 }
 
 // 评论数量变动
-const commitComment = (number)=>{
+const commitComment = (number) => {
     articleData.forumArticle.commentCount = number
 }
 
 // 内容处理
-const previewRef = ref(null) //html组件
-
-const urlList = reactive([])
-const showImg = ref(false)
-const showIdx = ref(null)
+const urlList = reactive([]) //图片url
+const showImg = ref(false) //是否放大图片
+const showIdx = ref(null) //显示索引
+const menuArr = reactive([]) //目录
 const previewClick = (e) => {
     if (e.target.tagName === 'IMG') {
         // 获取图片url集合
-        urlList.splice(0, urlList.length, ...previewRef.value.imgUrls)
         showIdx.value = urlList.findIndex(el => {
             return el === e.target.getAttribute('data-url')
         })
-        hiddenScroll()
+        // 放大图片
         showImg.value = true
     }
 }
 const closeImg = () => {
-    showScroll()
     showImg.value = false
     showIdx.value = null
 }
-
-const hiddenScroll = () => {
-    document.body.style.overflow = 'hidden'
+// 文章内容加载完成
+const htmlLoad = (menu, imgs) => {
+    Object.assign(menuArr, menu)
+    Object.assign(urlList, imgs)
 }
-const showScroll = () => {
-    document.body.style.overflow = 'auto'
+// 目录锚点跳转
+const titleJump = (id) => {
+    document.location.hash = '#' + id
 }
 
 const init = async () => {
@@ -304,6 +326,13 @@ init()
                     font-weight: bold;
                     font-size: 18px;
                     line-height: 40px;
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+
+                    .top-tag {
+                        margin-left: 8px;
+                    }
                 }
 
                 .author-info {
@@ -336,6 +365,14 @@ init()
                             .iconfont {
                                 margin-left: 10px;
                                 margin-right: 4px;
+                            }
+
+                            .edit {
+                                font-size: 14px;
+
+                                .iconfont {
+                                    margin-right: 2px;
+                                }
                             }
                         }
                     }
@@ -381,9 +418,49 @@ init()
 
         .right {
             width: 290px;
-            height: 300px;
+            height: max-content;
+            max-height: calc(100vh - 300px);
             background-color: #fff;
             border-radius: 5px;
+            overflow: auto;
+
+            .menu-title {
+                font-size: 16px;
+                font-weight: bold;
+                padding: 10px;
+                border-bottom: 1px solid #ddd;
+            }
+
+            .menu-list {
+                padding: 5px;
+
+                .menu-item {
+                    padding: 5px 0;
+                    cursor: pointer;
+                    border-left: 2px solid #fff;
+                    font-size: 16px;
+                    font-weight: bold;
+
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    &:hover {
+                        background-color: #efebeb;
+                        // border-left: 2px solid $color-blue;
+                    }
+                }
+
+                .menu-active {
+                    background-color: #efebeb;
+                    // border-left: 2px solid $color-blue;
+                }
+
+                .not-menu{
+                    text-align: center;
+                    padding: 10px;
+                    color: $color-font;
+                }
+            }
         }
     }
 }

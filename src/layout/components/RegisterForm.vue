@@ -139,7 +139,6 @@ const submitRegister = async () => {
     if(!result){
         return
     }
-    // console.log(result);
     proxy.Message.success('注册成功')
     // 保存邮箱地址信息
     proxy.VueCookies.set('loginInfo',{
@@ -174,10 +173,6 @@ const handleOption = () => {
 
 onMounted(() => {
     changeCode()
-    // console.log(`register mounted`);
-})
-onBeforeUnmount(() => {
-    // console.log(`register unmounted`);
 })
 </script>
 

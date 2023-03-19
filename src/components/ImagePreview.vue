@@ -4,6 +4,7 @@
 </template>
 
 <script setup>
+import { watch } from 'vue'
 const props = defineProps({
     urlList: {
         type: Array,
@@ -24,6 +25,19 @@ const emit = defineEmits(['closeImg'])
 const handleClose = () => {
     emit('closeImg')
 }
+const hiddenScroll = () => {
+    document.body.style.overflow = 'hidden'
+}
+const showScroll = () => {
+    document.body.style.overflow = 'auto'
+}
+watch(()=>props.show,(newV)=>{
+    if (newV) {
+        hiddenScroll()
+    }else{
+        showScroll()
+    }
+})
 </script>
 
 <style lang="scss" scoped></style>

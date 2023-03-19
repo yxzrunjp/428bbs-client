@@ -13,7 +13,7 @@
             <div class="comment-content">
                 <div class="content-box">
                     <el-tag v-if="data.topType" :size="'small'" effect="plain" class="top-tag">置顶</el-tag>
-                    <el-tag v-if="data.status === 0" :size="'small'" effect="plain" class="top-tag">待审核</el-tag>
+                    <el-tag v-if="data.status === 0" :size="'small'" type="warning" effect="plain" class="top-tag">待审核</el-tag>
                     <div class="content">{{ data.content }}</div>
                 </div>
                 <div class="content-img" v-if="data.imgPath">
