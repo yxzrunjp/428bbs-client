@@ -8,7 +8,8 @@ import VMdPreviewHtml from '@kangc/v-md-editor/lib/preview-html';
 import '@kangc/v-md-editor/lib/style/preview-html.css';
 import '@kangc/v-md-editor/lib/theme/style/github.css';// 引入使用主题的样式
 import hljs from 'highlight.js';//atom-one-light
-import { watch, nextTick, reactive, onBeforeUnmount } from 'vue';
+// import hljs from '@/utils/hljs.js';//atom-one-light
+import { watch, nextTick, onBeforeUnmount } from 'vue';
 import { throttling } from '@/utils/commonFn.js'
 import { scrollTopChangeHook } from '@/utils/hooks.js'
 import img from '@/assets/imgs/placeholder.png'
