@@ -79,3 +79,27 @@ $color-font:#625a5a;
     cursor: pointer;
     color: $color-dark-blue;
 }
+
+.el-dropdown-menu{
+    .menu-item{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        .menu-name{
+            margin-right: 10px;
+        }
+        
+    }
+}
+.msg-count{
+    background-color: #ff7f50;
+    color: #fff;
+    text-align: center;
+    font-size: 12px;
+    border-radius: 8px;
+    min-width: 24px;
+    height: 20px;
+    line-height: 20px;
+    padding: 0 4px;
+}

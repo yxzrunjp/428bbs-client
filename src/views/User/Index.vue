@@ -115,12 +115,11 @@ import PointTable from './components/PointTable.vue';
 
 import { ArrowRight } from '@element-plus/icons-vue'
 import { useRoute, useRouter } from 'vue-router';
-import { ref, reactive, inject, computed, getCurrentInstance } from 'vue'
+import { ref, reactive, inject, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { getUserInfo, loadUserArticle } from '@/api/user.js'
 import { useUserInfoStore } from '@/stores/userInfo.js'
 
-const { proxy } = getCurrentInstance()
 const pagePxStore = inject('pagePxStore')
 const userInfoStore = useUserInfoStore()
 const { mainWidth } = storeToRefs(pagePxStore)
@@ -229,7 +228,6 @@ init()
 
 <style lang="scss" scoped>
 .user-page {
-    margin: 0 auto;
 
     .breadcrumb-box {
         margin-bottom: 10px;

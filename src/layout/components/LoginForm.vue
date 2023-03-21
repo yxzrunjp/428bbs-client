@@ -106,15 +106,15 @@ const submitLogin = async () => {
     }
     // const userInfo = result.data
     // 获取登录信息
-    // await userInfoStore.getLoginUserInfo()
-    userInfoStore.$patch(result.data)
+    await userInfoStore.getLoginUserInfo()
+    // userInfoStore.$patch(result.data)
     // 备份登录信息
     // proxy.VueCookies.set('userInfo', userInfo, '7d')
     proxy.Message.success('登录成功')
-    setTimeout(()=>{
-        // 重新加载页面
-        document.location.reload()
-    },500)
+    // setTimeout(()=>{
+    //     // 重新加载页面
+    //     document.location.reload()
+    // },500)
     closeForm()
 }
 

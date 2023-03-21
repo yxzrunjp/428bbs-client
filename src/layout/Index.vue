@@ -1,9 +1,8 @@
 <template>
-    <div class="layout">
-        <!-- :style="{ minWidth: `${mainWidth}px` }" -->
+    <div class="layout" :style="{ minWidth: `${mainWidth}px` }">
         <Transition name="fade">
             <header :style="{ height: headerHeight + 'px' }" v-show="!isHidden">
-                <div class="header-content" :style="{ width: mainWidth + 'px' }">
+                <div class="header-content" :style="{ maxWidth: `${mainWidth}px` }">
                     <div class="nav">
                         <router-link class="logo" :to="'/'">LOGO</router-link>
                         <router-link :class="['nav-item', currentPath === '/' ? 'active' : '']" :to="'/'"> 首页
@@ -43,16 +42,60 @@
 
                         <div class="user-wrap" v-if="userId" :style="{ marginLeft: '10px' }">
                             <el-dropdown>
-                                <el-badge :value="12" :max="99" :style="{ cursor: 'pointer' }">
+                                <el-badge :value="msgCount.total" :hidden="!msgCount.total" :max="99" :style="{ cursor: 'pointer' }">
                                     <i class="iconfont icon-message" :style="{ fontSize: '24px' }" />
                                 </el-badge>
                                 <template #dropdown>
                                     <el-dropdown-menu>
-                                        <el-dropdown-item>回复我的</el-dropdown-item>
-                                        <el-dropdown-item>赞了我的文章</el-dropdown-item>
-                                        <el-dropdown-item>下载了我的附件</el-dropdown-item>
-                                        <el-dropdown-item>赞了我的评论</el-dropdown-item>
-                                        <el-dropdown-item>系统消息</el-dropdown-item>
+                                        <router-link :to="`/message/reply`">
+                                            <el-dropdown-item>
+                                                <div class="menu-item">
+                                                    <div class="menu-name">回复我的</div>
+                                                    <div class="msg-count" v-if="msgCount.reply">{{ msgCount.reply > 99 ?
+                                                        '99+' : msgCount.reply }}
+                                                    </div>
+                                                </div>
+                                            </el-dropdown-item>
+                                        </router-link>
+                                        <router-link :to="`/message/likePost`">
+                                            <el-dropdown-item>
+                                                <div class="menu-item">
+                                                    <div class="menu-name">赞了我的文章</div>
+                                                    <div class="msg-count" v-if="msgCount.likePost">{{ msgCount.likePost >
+                                                        99 ? '99+' : msgCount.likePost
+                                                    }}</div>
+                                                </div>
+                                            </el-dropdown-item>
+                                        </router-link>
+                                        <router-link :to="`/message/downloadAttachment`">
+                                            <el-dropdown-item>
+                                                <div class="menu-item">
+                                                    <div class="menu-name">下载了我的附件</div>
+                                                    <div class="msg-count" v-if="msgCount.downloadAttachment">{{
+                                                        msgCount.downloadAttachment > 99 ? '99+' :
+                                                        msgCount.downloadAttachment }}
+                                                    </div>
+                                                </div>
+                                            </el-dropdown-item>
+                                        </router-link>
+                                        <router-link :to="`/message/likeComment`">
+                                            <el-dropdown-item>
+                                                <div class="menu-item">
+                                                    <div class="menu-name">赞了我的评论</div>
+                                                    <div class="msg-count" v-if="msgCount.likeComment">{{
+                                                        msgCount.likeComment > 99 ? '99+' : msgCount.likeComment }}</div>
+                                                </div>
+                                            </el-dropdown-item>
+                                        </router-link>
+                                        <router-link :to="`/message/sys`">
+                                            <el-dropdown-item>
+                                                <div class="menu-item">
+                                                    <div class="menu-name">系统消息</div>
+                                                    <div class="msg-count" v-if="msgCount.sys">{{ msgCount.sys > 99 ? '99+'
+                                                        : msgCount.sys }}</div>
+                                                </div>
+                                            </el-dropdown-item>
+                                        </router-link>
                                     </el-dropdown-menu>
                                 </template>
                             </el-dropdown>
@@ -61,8 +104,10 @@
                                 <Avatar :size="40" :userId="userId" :link="false" />
                                 <template #dropdown>
                                     <el-dropdown-menu>
-                                        <el-dropdown-item>我的主页</el-dropdown-item>
-                                        <el-dropdown-item>退出登录</el-dropdown-item>
+                                        <router-link :to="`/user/${userId}`">
+                                            <el-dropdown-item>我的主页</el-dropdown-item>
+                                        </router-link>
+                                        <el-dropdown-item @click="handleLogout">退出登录</el-dropdown-item>
                                     </el-dropdown-menu>
                                 </template>
                             </el-dropdown>
@@ -86,14 +131,17 @@
 </template>
 
 <script setup>
-import { useRoute,useRouter } from 'vue-router'
-import { useScrollHiddenHook,useCheckLoginHook } from '@/utils/hooks.js'
+import { useRoute, useRouter } from 'vue-router'
+import { useScrollHiddenHook, useCheckLoginHook } from '@/utils/hooks.js'
 import LoginAndRegister from './components/LoginAndRegister.vue';
 import { useUserInfoStore } from '@/stores/userInfo.js'
 import { useLoginSettingStore } from '@/stores/loginSetting.js'
 import { useBoardInfoStore } from '@/stores/board.js'
 import { storeToRefs } from 'pinia'
-import { watch, ref, inject,getCurrentInstance } from 'vue'
+import { watch, ref, reactive, inject, getCurrentInstance } from 'vue'
+import { getMessageCount } from '@/api/user.js'
+import { logout } from '@/api/loginAndRegister.js'
+import { Confirm } from '@/utils/Confirm.js'
 import settings from '@/utils/settings.js'
 
 const { proxy } = getCurrentInstance()
@@ -112,7 +160,7 @@ const pagePxStore = inject('pagePxStore')
 const loginSettingStore = useLoginSettingStore()
 const boardInfo = useBoardInfoStore()
 
-const { userId } = storeToRefs(userInfoStore)
+const { userId, msgCount } = storeToRefs(userInfoStore)
 const { headerHeight, mainWidth, headerHeightPlusSpace } = storeToRefs(pagePxStore)
 const { boardList } = storeToRefs(boardInfo)
 
@@ -125,12 +173,40 @@ const handleLoginAndRegister = (type) => {
 // 发帖
 const handlePublish = () => {
     const { isLogin } = useCheckLoginHook()
-    if(!isLogin){
+    if (!isLogin) {
         // 未登录
         proxy.Message.warning('请登录')
         return
     }
-    router.push({path:'/article'})
+    router.push({ path: '/article' })
+}
+
+// const msgCount = reactive({
+//     total: 0,
+//     sys: 0,
+//     reply: 0,
+//     likePost: 0,
+//     likeComment: 0,
+//     downloadAttachment: 0,
+// })
+// const getMsgCount = async () => {
+//     const result = await getMessageCount()
+//     if (!result) {
+//         return
+//     }
+//     Object.assign(msgCount, result.data)
+// }
+
+// 退出登录
+const handleLogout = async () => {
+    Confirm('确定退出吗?', '提示', async () => {
+        const result = await logout()
+        if (!result) {
+            return
+        }
+        userInfoStore.$reset()
+        router.replace('/')
+    })
 }
 
 const init = async () => {
@@ -138,6 +214,10 @@ const init = async () => {
     await userInfoStore.getLoginUserInfo()
     // 获取板块信息
     await boardInfo.getBoardList()
+    // if (userInfoStore.userId) {
+    //     // 获取用户消息数量
+    //     await getMsgCount()
+    // }
 }
 init()
 </script>
@@ -201,6 +281,18 @@ init()
                     justify-content: flex-start;
                     align-items: center;
                 }
+
+                // &:deep(.el-dropdown) {
+                //     .manu-name {
+                //         margin-right: 10px;
+                //     }
+
+                //     .msg-count {
+                //         background-color: red;
+                //         color: #fff;
+                //         padding: 10px;
+                //     }
+                // }
             }
         }
     }

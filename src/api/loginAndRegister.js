@@ -12,7 +12,7 @@ export const sendEmailCode = async (params) => {
 // 注册
 export const register = async (params) => {
     return request({
-        url:'/register',
+        url: '/register',
         params
     })
 }
@@ -20,7 +20,7 @@ export const register = async (params) => {
 // 登录
 export const login = async (params) => {
     return request({
-        url:'/login',
+        url: '/login',
         params
     })
 }
@@ -28,22 +28,29 @@ export const login = async (params) => {
 // 找回密码
 export const resetPwd = async (params) => {
     return request({
-        url:'/resetPwd',
+        url: '/resetPwd',
         params
     })
 }
 
 // 获取登录的用户信息
-export const getUserInfo = async (params)=>{
+export const getUserInfo = async (params) => {
     return request({
-        url:'/getUserInfo',
+        url: '/getUserInfo',
         params
     })
 }
 
 // 获取板块信息
-export const loadBoard = async ()=>{
+export const loadBoard = async () => {
     return request({
-        url:'/board/loadBoard',
+        url: '/board/loadBoard',
+    })
+}
+
+// 退出登录
+export const logout = async () => {
+    return request({
+        url: '/logout',
     })
 }

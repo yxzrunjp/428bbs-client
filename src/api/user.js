@@ -33,3 +33,18 @@ export const loadUserIntegralRecord = async (params) => {
         params,
     })
 }
+
+// 获取用户消息数
+export const getMessageCount = async () => {
+    return request({
+        url: '/ucenter/getMessageCount',
+    })
+}
+
+// 获取消息列表
+export const loadMessageList = async (params) => {
+    return request({
+        url: '/ucenter/loadMessageList',
+        params
+    })
+}

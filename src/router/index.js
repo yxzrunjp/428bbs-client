@@ -42,6 +42,11 @@ const router = createRouter({
           name:'EditArticle',
           component:()=>import('@/views/EditArticle/Index.vue')
         },
+        {
+          path:'/message/:code',
+          name:'Message',
+          component:()=>import('@/views/Message/Index.vue')
+        },
       ]
     }
   ]
