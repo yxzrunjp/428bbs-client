@@ -27,6 +27,7 @@
                 <router-link :to="'/articleDetail/' + data.articleId">
                     <div class="title">
                         <el-tag v-if="data.topType" :size="'small'" effect="plain" class="top-tag">置顶</el-tag>
+                        <el-tag v-if="data.status===0" :size="'small'" type="warning" effect="plain" class="top-tag">待审核</el-tag>
                         <span>{{ data.title }}</span>
                     </div>
                 </router-link>
@@ -41,9 +42,15 @@
                     <i class="iconfont icon-good" />
                     <span class="number">{{ data.goodCount ? data.goodCount : '点赞' }}</span>
                 </span>
-                <span class="option-item">
+                <span class="option-item" v-if="sysInfo.commentOpen&&data.status">
                     <i class="iconfont icon-comment" />
                     <span class="number">{{ data.commentCount ? data.commentCount : '评论' }}</span>
+                </span>
+                <span class="option-item" v-if="showEdit">
+                    <router-link class="text-btn" :to="`/article/${data.articleId}`">
+                        <i class="iconfont icon-edit" />
+                        <span class="number">编辑</span>
+                    </router-link>
                 </span>
             </div>
         </div>
@@ -55,6 +62,10 @@
 
 <script setup>
 import { inject } from 'vue'
+import { useUserInfoStore } from '@/stores/userInfo';
+import { storeToRefs } from 'pinia'
+const userInfoStore = useUserInfoStore()
+const { sysInfo } = storeToRefs(userInfoStore)
 const globalInfo = inject('globalInfo')
 const { getImageUrl } = globalInfo
 const prop = defineProps({
@@ -63,6 +74,10 @@ const prop = defineProps({
         default: () => {
             return {}
         }
+    },
+    showEdit: {
+        type: Boolean,
+        default: false,
     }
 })
 </script>

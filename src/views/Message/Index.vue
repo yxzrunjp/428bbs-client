@@ -20,68 +20,80 @@
                 </el-tab-pane>
             </el-tabs>
             <div class="info-list">
-                <div class="message-item" v-for="msg in msgInfo.list" :key="msg.messageId">
-                    <!-- 系统消息 -->
-                    <template v-if="msg.messageType === 0">
-                        <div class="sys-msg-wrap">
-                            <div class="sys-msg" v-html="msg.messageContent"></div>
-                            <div class="sys-msg-time">{{ msg.createTime }}</div>
-                        </div>
-                    </template>
-                    <!-- 回复1，点赞回复3 -->
-                    <template v-if="msg.messageType === 1 || msg.messageType === 3">
-                        <div class="reply-msg-wrap">
-                            <div class="msg-left">
-                                <Avatar :userId="msg.sendUserId" :size="40" :link="false" />
-                            </div>
-                            <div class="msg-right">
-                                <div class="msg-from">
-                                    <router-link :to="`/user/${msg.sendUserId}`">
-                                        <span class="text-btn">@{{ msg.sendNickName }}</span>
-                                    </router-link>
-                                    <span class="space">
-                                        {{ msg.messageType === 1 ? '对我的文章' : '在文章' }}
-                                    </span>
-                                    <router-link :to="`/articleDetail/${msg.articleId}`">
-                                        <span class="text-btn">【{{ msg.articleTitle }}】</span>
-                                    </router-link>
-                                    <span class="space">
-                                        {{ msg.messageType === 1 ? '发表了评论' : '中赞了我的评论' }}
-                                    </span>
-                                    <span class="time">{{ msg.createTime }}</span>
+                <div class="skeleton">
+                    <el-skeleton :rows="2" :loading="loading" animated>
+                        <template #default>
+                            <template v-if="msgInfo.totalCount">
+                                <div class="message-item" v-for="msg in msgInfo.list" :key="msg.messageId">
+                                    <!-- 系统消息 -->
+                                    <template v-if="msg.messageType === 0">
+                                        <div class="sys-msg-wrap">
+                                            <div class="sys-msg" v-html="msg.messageContent"></div>
+                                            <div class="sys-msg-time">{{ msg.createTime }}</div>
+                                        </div>
+                                    </template>
+                                    <!-- 回复1，点赞回复3 -->
+                                    <template v-if="msg.messageType === 1 || msg.messageType === 3">
+                                        <div class="reply-msg-wrap">
+                                            <div class="msg-left">
+                                                <Avatar :userId="msg.sendUserId" :size="40" :link="false" />
+                                            </div>
+                                            <div class="msg-right">
+                                                <div class="msg-from">
+                                                    <router-link :to="`/user/${msg.sendUserId}`">
+                                                        <span class="text-btn">@{{ msg.sendNickName }}</span>
+                                                    </router-link>
+                                                    <span class="space">
+                                                        {{ msg.messageType === 1 ? '对我的文章' : '在文章' }}
+                                                    </span>
+                                                    <router-link :to="`/articleDetail/${msg.articleId}`">
+                                                        <span class="text-btn">【{{ msg.articleTitle }}】</span>
+                                                    </router-link>
+                                                    <span class="space">
+                                                        {{ msg.messageType === 1 ? '发表了评论' : '中赞了我的评论' }}
+                                                    </span>
+                                                    <span class="time">{{ msg.createTime }}</span>
+                                                </div>
+                                                <div class="msg-content">
+                                                    {{ msg.messageContent }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
+                                    <!-- 点赞文章2，下载附件4 -->
+                                    <template v-if="msg.messageType === 2 || msg.messageType === 4">
+                                        <div class="like-msg-wrap">
+                                            <div class="msg-left">
+                                                <Avatar :userId="msg.sendUserId" :size="40" :link="false" />
+                                            </div>
+                                            <div class="msg-right">
+                                                <div class="msg-from">
+                                                    <router-link :to="`/user/${msg.sendUserId}`">
+                                                        <span class="text-btn">@{{ msg.sendNickName }}</span>
+                                                    </router-link>
+                                                    <span class="space">
+                                                        {{ msg.messageType === 2 ? '赞了我的文章' : '在文章' }}
+                                                    </span>
+                                                    <router-link :to="`/articleDetail/${msg.articleId}`">
+                                                        <span class="text-btn">【{{ msg.articleTitle }}】</span>
+                                                    </router-link>
+                                                    <span class="space">
+                                                        {{ msg.messageType === 2 ? '' : '中下载了我的附件' }}
+                                                    </span>
+                                                    <span class="time">{{ msg.createTime }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
                                 </div>
-                                <div class="msg-content">
-                                    {{ msg.messageContent }}
-                                </div>
-                            </div>
-                        </div>
-                    </template>
-                    <!-- 点赞文章2，下载附件4 -->
-                    <template v-if="msg.messageType === 2 || msg.messageType === 4">
-                        <div class="like-msg-wrap">
-                            <div class="msg-left">
-                                <Avatar :userId="msg.sendUserId" :size="40" :link="false" />
-                            </div>
-                            <div class="msg-right">
-                                <div class="msg-from">
-                                    <router-link :to="`/user/${msg.sendUserId}`">
-                                        <span class="text-btn">@{{ msg.sendNickName }}</span>
-                                    </router-link>
-                                    <span class="space">
-                                        {{ msg.messageType === 2 ? '赞了我的文章' : '在文章' }}
-                                    </span>
-                                    <router-link :to="`/articleDetail/${msg.articleId}`">
-                                        <span class="text-btn">【{{ msg.articleTitle }}】</span>
-                                    </router-link>
-                                    <span class="space">
-                                        {{ msg.messageType === 2 ? '' : '中下载了我的附件' }}
-                                    </span>
-                                    <span class="time">{{ msg.createTime }}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </template>
+                            </template>
+                            <template v-else>
+                                <el-empty description="暂无消息" />
+                            </template>
+                        </template>
+                    </el-skeleton>
                 </div>
+
             </div>
             <div class="pagination" v-if="msgInfo.totalCount">
                 <el-pagination background layout="prev, pager, next" :total="msgInfo.totalCount"
@@ -130,7 +142,9 @@ const pageChange = (e) => {
     getMsgInfo()
 }
 // 获取信息列表
+const loading = ref(false)
 const getMsgInfo = async () => {
+    loading.value = true
     const params = {}
     params.pageNo = msgInfo.pageNo
     params.code = code.value
@@ -139,6 +153,7 @@ const getMsgInfo = async () => {
         return
     }
     Object.assign(msgInfo, result.data)
+    loading.value = false
 }
 
 watch(() => route.params, (newV) => {
@@ -236,7 +251,8 @@ init()
 
                 .msg-right {
                     font-size: 14px;
-                    .time{
+
+                    .time {
                         color: $color-font;
                     }
                 }

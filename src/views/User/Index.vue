@@ -86,7 +86,7 @@
                             <el-skeleton :rows="3" :loading="loading" animated>
                                 <template #default>
                                     <template v-if="article.totalCount">
-                                        <ArticleItem :data="item" v-for="item in article.list" :key="item.articleId" />
+                                        <ArticleItem :data="item" v-for="item in article.list" :key="item.articleId" :showEdit="type===0" />
                                     </template>
                                     <template v-else>
                                         <el-empty description="暂无帖子" />

@@ -48,3 +48,10 @@ export const loadMessageList = async (params) => {
         params
     })
 }
+
+// 获取系统设置
+export const getSysSetting = async ()=>{
+    return request({
+        url:'/getSysSetting',
+    })
+}

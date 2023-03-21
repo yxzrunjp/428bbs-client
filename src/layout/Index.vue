@@ -42,7 +42,8 @@
 
                         <div class="user-wrap" v-if="userId" :style="{ marginLeft: '10px' }">
                             <el-dropdown>
-                                <el-badge :value="msgCount.total" :hidden="!msgCount.total" :max="99" :style="{ cursor: 'pointer' }">
+                                <el-badge :value="msgCount.total" :hidden="!msgCount.total" :max="99"
+                                    :style="{ cursor: 'pointer' }">
                                     <i class="iconfont icon-message" :style="{ fontSize: '24px' }" />
                                 </el-badge>
                                 <template #dropdown>
@@ -122,10 +123,33 @@
                 </div>
             </header>
         </Transition>
-        <main :style="{ paddingTop: headerHeightPlusSpace + 'px', minHeight: `calc(100vh - ${0}px)` }">
+        <main :style="{ paddingTop: headerHeightPlusSpace + 'px', minHeight: `calc(100vh - ${footerHeightPlusSpace}px)` }">
             <RouterView />
         </main>
-        <footer></footer>
+        <footer :style="{ height: footerHeight + 'px' }">
+            <div class="wrap" :style="{ maxWidth: mainWidth + 'px' }">
+                <el-row>
+                    <el-col :span="8">
+                        <div class="logo">
+                            LOGO
+                        </div>
+                        <div class="intro">
+                            欢迎您来此留下足迹
+                        </div>
+                    </el-col>
+                    <el-col :span="8">
+                        <h3>友情连接</h3>
+                        <a target="_blank" href="http://106.52.69.142:6002/index">浮云博客</a>
+                    </el-col>
+                    <el-col :span="8">
+                        <h3>关于站长</h3>
+                        <div>籍贯：茂名</div>
+                        <div>邮箱：1147084140@qq.com</div>
+                        <div>现住址：广州</div>
+                    </el-col>
+                </el-row>
+            </div>
+        </footer>
         <LoginAndRegister />
     </div>
 </template>
@@ -138,8 +162,7 @@ import { useUserInfoStore } from '@/stores/userInfo.js'
 import { useLoginSettingStore } from '@/stores/loginSetting.js'
 import { useBoardInfoStore } from '@/stores/board.js'
 import { storeToRefs } from 'pinia'
-import { watch, ref, reactive, inject, getCurrentInstance } from 'vue'
-import { getMessageCount } from '@/api/user.js'
+import { watch, ref, inject, getCurrentInstance } from 'vue'
 import { logout } from '@/api/loginAndRegister.js'
 import { Confirm } from '@/utils/Confirm.js'
 import settings from '@/utils/settings.js'
@@ -161,7 +184,7 @@ const loginSettingStore = useLoginSettingStore()
 const boardInfo = useBoardInfoStore()
 
 const { userId, msgCount } = storeToRefs(userInfoStore)
-const { headerHeight, mainWidth, headerHeightPlusSpace } = storeToRefs(pagePxStore)
+const { headerHeight, mainWidth, headerHeightPlusSpace, footerHeight, footerHeightPlusSpace } = storeToRefs(pagePxStore)
 const { boardList } = storeToRefs(boardInfo)
 
 // 登录注册表单
@@ -181,22 +204,6 @@ const handlePublish = () => {
     router.push({ path: '/article' })
 }
 
-// const msgCount = reactive({
-//     total: 0,
-//     sys: 0,
-//     reply: 0,
-//     likePost: 0,
-//     likeComment: 0,
-//     downloadAttachment: 0,
-// })
-// const getMsgCount = async () => {
-//     const result = await getMessageCount()
-//     if (!result) {
-//         return
-//     }
-//     Object.assign(msgCount, result.data)
-// }
-
 // 退出登录
 const handleLogout = async () => {
     Confirm('确定退出吗?', '提示', async () => {
@@ -204,8 +211,8 @@ const handleLogout = async () => {
         if (!result) {
             return
         }
-        userInfoStore.$reset()
         router.replace('/')
+        userInfoStore.$reset()
     })
 }
 
@@ -214,10 +221,6 @@ const init = async () => {
     await userInfoStore.getLoginUserInfo()
     // 获取板块信息
     await boardInfo.getBoardList()
-    // if (userInfoStore.userId) {
-    //     // 获取用户消息数量
-    //     await getMsgCount()
-    // }
 }
 init()
 </script>
@@ -300,6 +303,26 @@ init()
     main {
         margin: 0 auto;
         width: max-content;
+    }
+
+    footer {
+        background-color: #dfe4ea;
+        padding: 10px 0;
+        margin-top: 10px;
+        font-size: 14px;
+        .wrap{
+            margin:0 auto;
+            color: $color-font;
+            h3{
+                margin-bottom: 6px;
+                color: #000;
+            }
+            a{
+                &:hover{
+                    color:$color-blue;
+                }
+            }
+        }
     }
 }
 </style>

@@ -61,7 +61,7 @@
                         <el-button type="primary" size="small" @click="handleDownLoad">下载</el-button>
                     </div>
                 </div>
-                <div class="comment-info" id="comment-box">
+                <div class="comment-info" v-if="sysInfo.commentOpen&&forumArticle.status" id="comment-box">
                     <CommentCmp :articleId="articleId" @commitComment="commitComment" />
                 </div>
             </div>
@@ -86,7 +86,7 @@
                     <i :class="['iconfont', 'icon-good', haveLike ? 'option-active' : '']"></i>
                 </el-badge>
             </div>
-            <div class="option-item" @click="hashJump('comment-box')">
+            <div class="option-item" v-if="sysInfo.commentOpen&&forumArticle.status" @click="hashJump('comment-box')">
                 <el-badge :value="forumArticle.commentCount" :hidden="!forumArticle.commentCount">
                     <i class="iconfont icon-comment"></i>
                 </el-badge>
@@ -123,7 +123,7 @@ const userInfoStore = useUserInfoStore()
 const loginSettingStore = useLoginSettingStore()
 const pagePxStore = inject('pagePxStore')
 const { mainWidth } = storeToRefs(pagePxStore)
-const { userId } = storeToRefs(userInfoStore)
+const { userId,sysInfo } = storeToRefs(userInfoStore)
 const globalInfo = inject('globalInfo')
 
 const route = useRoute()
@@ -268,14 +268,12 @@ init()
 
     .article-options {
         position: absolute;
-        height: 180px;
         width: 40px;
         top: 100px;
         left: -80px;
-        // background-color: #fff;
 
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: center;
         flex-direction: column;
 
@@ -284,6 +282,10 @@ init()
             padding: 10px;
             border-radius: 50%;
             cursor: pointer;
+            margin-bottom: 20px;
+            &:last-of-type{
+                margin-bottom: 0px;
+            }
 
             &:hover {
                 background-color: #ddd;

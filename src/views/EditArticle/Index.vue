@@ -76,7 +76,7 @@ const globalInfo = inject('globalInfo')
 const { proxy } = getCurrentInstance()
 const articleId = ref(route.params.articleId || '')
 
-const editorHeight = window.innerHeight - pagePxStore.headerHeightPlusSpace - 70//70为el-card头部
+const editorHeight = window.innerHeight - pagePxStore.headerHeightPlusSpace - pagePxStore.footerHeightPlusSpace - 64//70为el-card头部
 // 表单
 const formData = reactive({
     boardIds: [],

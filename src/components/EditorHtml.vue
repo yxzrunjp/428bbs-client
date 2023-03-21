@@ -91,4 +91,8 @@ const handleCreated = (editor) => {
 const mode = 'default'//simple
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.editor-html{
+    z-index: 1001;
+}
+</style>

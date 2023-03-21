@@ -65,6 +65,7 @@ const scrollHandler = () => {
             imgObj.onload = () => {
                 setImageUrl(el, el.getAttribute('data-url'), '', '')
             }
+            
         }
     })
 }

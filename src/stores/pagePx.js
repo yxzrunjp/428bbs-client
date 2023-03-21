@@ -5,6 +5,7 @@ export const usePagePxStore = defineStore('pagePx', {
         return {
             mainWidth: 1300,
             headerHeight: 60,
+            footerHeight: 100,
         }
     },
     getters: {
@@ -12,5 +13,9 @@ export const usePagePxStore = defineStore('pagePx', {
         headerHeightPlusSpace: (state) => {
             return state.headerHeight + 10
         },
+        // footer高度加10px间距
+        footerHeightPlusSpace: (state) => {
+            return state.footerHeight + 10
+        }
     }
 })

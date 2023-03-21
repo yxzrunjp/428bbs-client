@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { getUserInfo } from '@/api/loginAndRegister.js'
-import { getMessageCount } from '@/api/user.js'
+import { getMessageCount,getSysSetting } from '@/api/user.js'
 // import Message from '@/utils/Message'
 export const useUserInfoStore = defineStore('userInfo', {
     state: () => {
@@ -15,6 +15,9 @@ export const useUserInfoStore = defineStore('userInfo', {
                 likeComment: 0,
                 downloadAttachment: 0,
             },
+            sysInfo:{
+                commentOpen:true,
+            }
         }
     },
     actions: {
@@ -25,6 +28,8 @@ export const useUserInfoStore = defineStore('userInfo', {
             }
             this.userId = result.data?.userId||''
             this.nickName = result.data?.nickName||''
+            
+            this.getSysInfo()
             if (this.userId) {
                 this.getMsgInfo()
             }
@@ -35,6 +40,13 @@ export const useUserInfoStore = defineStore('userInfo', {
                 return
             }
             this.msgCount = result.data
+        },
+        async getSysInfo(){
+            const result = await getSysSetting()
+            if(!result){
+                return
+            }
+            this.sysInfo = result.data
         },
         setMsgCount(type){
             this.msgCount.total = this.msgCount.total - this.msgCount[type]
