@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { useUserInfoStore } from '@/stores/userInfo.js'
 import { useLoginSettingStore } from '@/stores/loginSetting.js'
 import settings from '@/utils/settings.js'
+import Message from '@/utils/Message.js'
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -120,6 +121,7 @@ router.beforeEach((to, from, next) => {
     // 弹出登录框
     loginSettingStore.title = settings.loginFormTitle.login
     loginSettingStore.show = true
+    Message.warning('请登录')
     next(from.fullPath)
   } else {
     next()
