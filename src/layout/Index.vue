@@ -4,7 +4,9 @@
             <header :style="{ height: headerHeight + 'px' }" v-show="!isHidden">
                 <div class="header-content" :style="{ maxWidth: `${mainWidth}px` }">
                     <div class="nav">
-                        <router-link class="logo" :to="'/'">LOGO</router-link>
+                        <router-link class="logo" :to="'/'">
+                            <img src="../assets/imgs/cloud.png" alt="logo">
+                        </router-link>
                         <router-link :class="['nav-item', currentPath === '/' ? 'active' : '']" :to="'/'"> 首页
                         </router-link>
                         <template v-for="item in boardList" :key="item.boardId">
@@ -37,8 +39,11 @@
                     <div class="header-right">
                         <el-button type="success" @click="handlePublish">发帖<span :style="{ marginLeft: '4px' }"
                                 class="iconfont icon-add"></span></el-button>
-                        <el-button type="success">搜索<span :style="{ marginLeft: '4px' }"
-                                class="iconfont icon-search"></span></el-button>
+                        <el-button type="success">
+                            <router-link :to="`/search`">
+                                搜索<span :style="{ marginLeft: '4px' }" class="iconfont icon-search"></span>
+                            </router-link>
+                        </el-button>
 
                         <div class="user-wrap" v-if="userId" :style="{ marginLeft: '10px' }">
                             <el-dropdown>
@@ -131,7 +136,8 @@
                 <el-row>
                     <el-col :span="8">
                         <div class="logo">
-                            LOGO
+                            <img src="../assets/imgs/cloud.png" alt="logo">
+                            <span class="logo-title">浮云论坛</span>
                         </div>
                         <div class="intro">
                             欢迎您来此留下足迹
@@ -251,7 +257,12 @@ init()
                 justify-content: flex-start;
                 align-items: center;
 
-                .logo {}
+                .logo {
+                    font-size: 0px;
+                    img{
+                        width: 70px;
+                    }
+                }
 
                 .nav-item {
                     color: $color-nav;
@@ -284,18 +295,7 @@ init()
                     justify-content: flex-start;
                     align-items: center;
                 }
-
-                // &:deep(.el-dropdown) {
-                //     .manu-name {
-                //         margin-right: 10px;
-                //     }
-
-                //     .msg-count {
-                //         background-color: red;
-                //         color: #fff;
-                //         padding: 10px;
-                //     }
-                // }
+               
             }
         }
     }
@@ -310,16 +310,34 @@ init()
         padding: 10px 0;
         margin-top: 10px;
         font-size: 14px;
-        .wrap{
-            margin:0 auto;
+
+        .wrap {
+            margin: 0 auto;
             color: $color-font;
-            h3{
+
+            .logo{
+                font-size: 0px;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                margin-bottom: 10px;
+                img{
+                    width: 70px;
+                }
+                .logo-title{
+                    margin-left: 10px;
+                    font-size: 18px;
+                }
+            }
+
+            h3 {
                 margin-bottom: 6px;
                 color: #000;
             }
-            a{
-                &:hover{
-                    color:$color-blue;
+
+            a {
+                &:hover {
+                    color: $color-blue;
                 }
             }
         }

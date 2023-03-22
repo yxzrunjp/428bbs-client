@@ -10,13 +10,15 @@
 
 <style lang="scss" scoped>
 .not-found {
-    &:deep(.el-empty) {
-        .el-empty__description {
+    .el-empty {
+        &:deep(.el-empty__description) {
             p {
                 font-size: 30px;
                 color: #ff4757;
             }
         }
     }
+
+
 }
 </style>

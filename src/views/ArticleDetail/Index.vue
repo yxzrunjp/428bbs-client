@@ -61,7 +61,7 @@
                         <el-button type="primary" size="small" @click="handleDownLoad">下载</el-button>
                     </div>
                 </div>
-                <div class="comment-info" v-if="sysInfo.commentOpen&&forumArticle.status" id="comment-box">
+                <div class="comment-info" v-if="sysInfo.commentOpen && forumArticle.status" id="comment-box">
                     <CommentCmp :articleId="articleId" @commitComment="commitComment" />
                 </div>
             </div>
@@ -86,7 +86,7 @@
                     <i :class="['iconfont', 'icon-good', haveLike ? 'option-active' : '']"></i>
                 </el-badge>
             </div>
-            <div class="option-item" v-if="sysInfo.commentOpen&&forumArticle.status" @click="hashJump('comment-box')">
+            <div class="option-item" v-if="sysInfo.commentOpen && forumArticle.status" @click="hashJump('comment-box')">
                 <el-badge :value="forumArticle.commentCount" :hidden="!forumArticle.commentCount">
                     <i class="iconfont icon-comment"></i>
                 </el-badge>
@@ -123,7 +123,7 @@ const userInfoStore = useUserInfoStore()
 const loginSettingStore = useLoginSettingStore()
 const pagePxStore = inject('pagePxStore')
 const { mainWidth } = storeToRefs(pagePxStore)
-const { userId,sysInfo } = storeToRefs(userInfoStore)
+const { userId, sysInfo } = storeToRefs(userInfoStore)
 const globalInfo = inject('globalInfo')
 
 const route = useRoute()
@@ -248,8 +248,8 @@ const closeImg = () => {
 }
 // 文章内容加载完成
 const htmlLoad = (menu, imgs) => {
-    menuArr.splice(0,menuArr.length,...menu)
-    urlList.splice(0,urlList.length,...imgs)
+    menuArr.splice(0, menuArr.length, ...menu)
+    urlList.splice(0, urlList.length, ...imgs)
 }
 // 目录锚点跳转
 const titleJump = (id) => {
@@ -283,7 +283,8 @@ init()
             border-radius: 50%;
             cursor: pointer;
             margin-bottom: 20px;
-            &:last-of-type{
+
+            &:last-of-type {
                 margin-bottom: 0px;
             }
 
@@ -295,12 +296,13 @@ init()
                 font-size: 26px;
             }
 
-            &:deep(.el-badge) {
-                .el-badge__content.is-fixed {
+            .el-badge {
+                &:deep(.el-badge__content.is-fixed) {
                     top: -4px;
                     right: 4px;
                 }
             }
+
         }
 
         .option-active {
@@ -446,6 +448,7 @@ init()
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: nowrap;
+
                     &:hover {
                         background-color: #efebeb;
                         // border-left: 2px solid $color-blue;
@@ -457,7 +460,7 @@ init()
                     // border-left: 2px solid $color-blue;
                 }
 
-                .not-menu{
+                .not-menu {
                     text-align: center;
                     padding: 10px;
                     color: $color-font;

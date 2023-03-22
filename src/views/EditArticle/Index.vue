@@ -146,6 +146,9 @@ const submit = () => {
             // 不是文件类型，不需要上传
             delete params.cover
         }
+        if (params.editorType === 0) {
+            delete params.markdownContent
+        }
         submitArticle(params)
     })
 }

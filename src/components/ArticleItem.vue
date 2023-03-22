@@ -28,7 +28,7 @@
                     <div class="title">
                         <el-tag v-if="data.topType" :size="'small'" effect="plain" class="top-tag">置顶</el-tag>
                         <el-tag v-if="data.status===0" :size="'small'" type="warning" effect="plain" class="top-tag">待审核</el-tag>
-                        <span>{{ data.title }}</span>
+                        <span v-html="data.title"></span>
                     </div>
                 </router-link>
                 <div class="summary">{{ data.summary }}{{ data.summary }}{{ data.summary }}</div>

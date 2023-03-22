@@ -57,7 +57,7 @@ export const postArticle = async (params) => {
     return request({
         url: "/forum/postArticle",
         params,
-        dataType:'file'
+        dataType: 'file'
     })
 }
 
@@ -66,7 +66,7 @@ export const updateArticle = async (params) => {
     return request({
         url: "/forum/updateArticle",
         params,
-        dataType:'file',
+        dataType: 'file',
     })
 }
 
@@ -74,6 +74,14 @@ export const updateArticle = async (params) => {
 export const getUpdateArticleInfo = async (params) => {
     return request({
         url: "/forum/articleDetail4Update",
+        params,
+    })
+}
+
+// /forum/search
+export const searchArticle = async (params) => {
+    return request({
+        url: '/forum/search',
         params,
     })
 }
