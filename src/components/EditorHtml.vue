@@ -63,7 +63,6 @@ const editorConfig = {
                     // 登录超时
                     // 登录过期，重置用户信息
                     userInfoStore.$reset()
-                    proxy.VueCookies.remove('userInfo')
                     // 弹出登录框
                     loginSettingStore.title = settings.loginFormTitle.login
                     loginSettingStore.show = true

@@ -30,10 +30,15 @@ const piniaPlugin = (context) => {
         const userInfo = VueCookies.get('userInfo')
         store.$patch(userInfo)
         store.$subscribe((args,state)=>{
-            VueCookies.set('userInfo',{
-                userId:state.userId,
-                nickName:state.nickName,
-            })
+            if (state.userId) {
+                VueCookies.set('userInfo',{
+                    userId:state.userId,
+                    nickName:state.nickName,
+                })
+            }else{
+                VueCookies.remove('userInfo')
+            }
+            
         })
     }
 }
