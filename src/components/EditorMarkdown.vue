@@ -12,7 +12,7 @@ import '@kangc/v-md-editor/lib/theme/style/github.css';// 引入使用主题的�
 // markdown编辑器
 import VMdEditor from '@kangc/v-md-editor';
 import '@kangc/v-md-editor/lib/style/base-editor.css';
-import hljs from 'highlight.js';
+import hljs from '@/utils/hljs.js';
 VMdEditor.use(githubTheme, {
     Hljs: hljs,
 });
