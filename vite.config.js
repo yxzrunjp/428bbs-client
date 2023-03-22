@@ -2,6 +2,7 @@ import { fileURLToPath, URL } from 'node:url'
 
 import { visualizer } from 'rollup-plugin-visualizer'
 import { defineConfig } from 'vite'
+
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
@@ -12,8 +13,8 @@ export default defineConfig({
   plugins: [
     vue(),
     visualizer({
-      open:true,
-      gzipSize:true,
+      open: true,
+      gzipSize: true,
     }),
     AutoImport({
       resolvers: [ElementPlusResolver()],
@@ -54,15 +55,15 @@ export default defineConfig({
         manualChunks: (id) => {
           if (id.includes('/views')) {
             const name = id.split('/views/')[1].split('/')[0]
-            console.log(id,name);
             return name
+          } else if (id.includes('node_modules')) {
+            return id.toString().split('node_modules/')[1].split('/')[0].toString();
           }
         },
-        entryFileNames:'static/[name].[hash].js',
-        chunkFileNames:'static/js/[name].[hash].js',
-        assetFileNames:'static/[ext]/[name].[hash].[ext]',
+        entryFileNames: 'static/[name].[hash].js',
+        chunkFileNames: 'static/js/[name].[hash].js',
+        assetFileNames: 'static/[ext]/[name].[hash].[ext]',
       },
-      
     }
   }
 })
