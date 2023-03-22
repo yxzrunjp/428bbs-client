@@ -17,35 +17,12 @@
             </template>
         </div>
         <div class="article-part">
-            <div class="select-part">
-                <span :class="['select-item', articleType.orderType === 0 ? 'select-active' : '']"
-                    @click="orderTypeChange(0)">热榜</span>
-                <el-divider direction="vertical" />
-                <span :class="['select-item', articleType.orderType === 1 ? 'select-active' : '']"
-                    @click="orderTypeChange(1)">发布时间</span>
-                <el-divider direction="vertical" />
-                <span :class="['select-item', articleType.orderType === 2 ? 'select-active' : '']"
-                    @click="orderTypeChange(2)">最新</span>
-            </div>
-            <div class="article-list">
-                <div class="skeleton">
-                    <el-skeleton :rows="3" :loading="loading" animated>
-                        <template #default>
-                            <template v-if="article.totalCount">
-                                <ArticleItem :data="item" v-for="item in article.list" :key="item.articleId" />
-                            </template>
-                            <template v-else>
-                                <el-empty description="暂无帖子" />
-                            </template>
-                        </template>
-                    </el-skeleton>
-                </div>
-
-            </div>
-            <div class="pagination" v-if="article.totalCount">
-                <el-pagination background layout="prev, pager, next" :total="article.totalCount"
-                    :page-size="article.pageSize" :current-page="article.pageNo" @current-change="pageChange" />
-            </div>
+            <el-tabs v-model="articleType.orderType" @tab-click="tabChange">
+                <el-tab-pane :label="'热榜'" :name="0" />
+                <el-tab-pane :label="'发布时间'" :name="1" />
+                <el-tab-pane :label="'最新'" :name="2" />
+            </el-tabs>
+            <ArticleList :loading="loading" :dataSource="article" :description="'暂无帖子'" @pageChange="pageChange" />
         </div>
     </div>
 </template>
@@ -53,7 +30,7 @@
 <script setup>
 import { storeToRefs } from 'pinia'
 import { loadArticle } from '@/api/article.js'
-import { reactive, ref, watch, inject} from 'vue';
+import { reactive, ref, watch, inject } from 'vue';
 import { useRoute } from 'vue-router'
 import { useBoardInfoStore } from '@/stores/board.js'
 
@@ -101,15 +78,15 @@ const pageChange = async (e) => {
 }
 
 // 类型变化
-const orderTypeChange = (type) => {
-    articleType.orderType = type
+const tabChange = (tab,e)=>{
+    articleType.orderType = tab.paneName
     articleType.pageNo = 1
     getArticleList()
 }
 
 watch(() => route.params, (newValue) => {
     // 页面跳转不属于文章列表，终结方法的执行
-    if (!route.path.includes('/articleList')&&route.path!=='/') {
+    if (!route.path.includes('/articleList') && route.path !== '/') {
         return
     }
     let newV = {}
@@ -129,8 +106,6 @@ getArticleList()
 
 <style lang="scss" scoped>
 .article-page {
-
-
     .sub-board {
         margin-bottom: 10px;
 
@@ -143,40 +118,6 @@ getArticleList()
     .article-part {
         background-color: #fff;
         padding: 0 10px 10px;
-
-        .select-part {
-            width: 100%;
-            padding: 10px 0;
-            border-bottom: 1px solid gray;
-
-            .select-item {
-                font-size: 16px;
-                cursor: pointer;
-
-                &:hover {
-                    font-size: 16px;
-                    color: $color-dark-blue;
-                }
-            }
-
-            .select-active {
-                color: $color-dark-blue;
-            }
-        }
-
-        .article-list {
-            // .skeleton{
-            //     padding: 5px;
-            // }
-        }
-
-        .pagination {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            margin-top: 10px;
-            height: 40px;
-        }
     }
 
 

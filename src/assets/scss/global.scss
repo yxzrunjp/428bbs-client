@@ -103,3 +103,10 @@ $color-font:#625a5a;
     line-height: 20px;
     padding: 0 4px;
 }
+
+// tabs标签页样式
+.el-tabs{
+    .el-tabs__header{
+        margin: 0px;
+    }
+}

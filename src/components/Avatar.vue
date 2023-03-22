@@ -3,14 +3,14 @@
         <RouterLink :to="`/user/${userId}`">
             <el-avatar :size="size" :src="`${avatarUrl}/${userId}`" @error="errorHandler">
                 <span v-if="userId">头像</span>
-                <span v-else>未登录</span>
+                <span v-else>登录</span>
             </el-avatar>
         </RouterLink>
     </template>
     <template v-else>
         <el-avatar :size="size" :src="`${avatarUrl}/${userId}`" @error="errorHandler">
             <span v-if="userId">头像</span>
-            <span v-else>未登录</span>
+            <span class="not-login" v-else>登录</span>
         </el-avatar>
     </template>
 </template>
@@ -38,4 +38,6 @@ const errorHandler = (e) => {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+
+</style>

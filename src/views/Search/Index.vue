@@ -8,24 +8,7 @@
                 </template>
             </el-input>
         </div>
-        <div class="article-list">
-            <div class="skeleton">
-                <el-skeleton :rows="3" :loading="loading" animated>
-                    <template #default>
-                        <template v-if="article.totalCount">
-                            <ArticleItem :data="item" v-for="item in article.list" :key="item.articleId" />
-                        </template>
-                        <template v-else>
-                            <el-empty description="暂无相关帖子" :image-size="400" />
-                        </template>
-                    </template>
-                </el-skeleton>
-            </div>
-        </div>
-        <div class="pagination" v-if="article.totalCount">
-            <el-pagination background layout="prev, pager, next" :total="article.totalCount" :page-size="article.pageSize"
-                :current-page="article.pageNo" @current-change="pageChange" />
-        </div>
+        <ArticleList :imgSize="400" :loading="loading" :dataSource="article" :description="'暂无帖子'" @pageChange="pageChange" />
     </div>
 </template>
 
@@ -104,26 +87,19 @@ const search = async () => {
         width: 700px;
         height: 50px;
         margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
-    .article-list {
-        margin-top: 10px;
-
+    &:deep(.article-list) {
         .el-empty {
-            &:deep(.el-empty__description) {
+            .el-empty__description {
                 p {
                     font-size: 30px;
                 }
             }
         }
-    }
-
-    .pagination {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        margin-top: 10px;
-        height: 40px;
     }
 }
 </style>

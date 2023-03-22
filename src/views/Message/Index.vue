@@ -93,7 +93,6 @@
                         </template>
                     </el-skeleton>
                 </div>
-
             </div>
             <div class="pagination" v-if="msgInfo.totalCount">
                 <el-pagination background layout="prev, pager, next" :total="msgInfo.totalCount"

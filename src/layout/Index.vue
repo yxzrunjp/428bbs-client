@@ -119,10 +119,13 @@
                             </el-dropdown>
 
                         </div>
-                        <el-button-group v-else :style="{ marginLeft: '10px' }">
+                        <!-- <el-button-group v-else :style="{ marginLeft: '10px' }">
                             <el-button type="success" plain @click="handleLoginAndRegister('login')">登录</el-button>
                             <el-button type="success" plain @click="handleLoginAndRegister('register')">注册</el-button>
-                        </el-button-group>
+                        </el-button-group> -->
+                        <Avatar v-else @click="handleLoginAndRegister('login')"
+                            :style="{ marginLeft: '10px', cursor: 'pointer' }" :link="false" :size="40" :userId="null">
+                        </Avatar>
 
                     </div>
                 </div>
@@ -217,7 +220,6 @@ const handleLogout = async () => {
         if (!result) {
             return
         }
-        router.replace('/')
         userInfoStore.$reset()
     })
 }
@@ -259,7 +261,8 @@ init()
 
                 .logo {
                     font-size: 0px;
-                    img{
+
+                    img {
                         width: 70px;
                     }
                 }
@@ -295,7 +298,7 @@ init()
                     justify-content: flex-start;
                     align-items: center;
                 }
-               
+
             }
         }
     }
@@ -315,16 +318,18 @@ init()
             margin: 0 auto;
             color: $color-font;
 
-            .logo{
+            .logo {
                 font-size: 0px;
                 display: flex;
                 justify-content: flex-start;
                 align-items: center;
                 margin-bottom: 10px;
-                img{
+
+                img {
                     width: 70px;
                 }
-                .logo-title{
+
+                .logo-title {
                     margin-left: 10px;
                     font-size: 18px;
                 }
@@ -342,5 +347,4 @@ init()
             }
         }
     }
-}
-</style>
+}</style>

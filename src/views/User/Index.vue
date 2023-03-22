@@ -74,31 +74,13 @@
             </div>
             <div class="right">
                 <div class="article-part">
-                    <div class="select-part">
-                        <span :class="['select-item', type === 0 ? 'select-active' : '']" @click="handleClick(0)">发帖</span>
-                        <el-divider direction="vertical" />
-                        <span :class="['select-item', type === 1 ? 'select-active' : '']" @click="handleClick(1)">评论</span>
-                        <el-divider direction="vertical" />
-                        <span :class="['select-item', type === 2 ? 'select-active' : '']" @click="handleClick(2)">点赞</span>
-                    </div>
-                    <div class="article-list">
-                        <div class="skeleton">
-                            <el-skeleton :rows="3" :loading="loading" animated>
-                                <template #default>
-                                    <template v-if="article.totalCount">
-                                        <ArticleItem :data="item" v-for="item in article.list" :key="item.articleId" :showEdit="type===0" />
-                                    </template>
-                                    <template v-else>
-                                        <el-empty description="暂无帖子" />
-                                    </template>
-                                </template>
-                            </el-skeleton>
-                        </div>
-                    </div>
-                    <div class="pagination" v-if="article.totalCount">
-                        <el-pagination background layout="prev, pager, next" :total="article.totalCount"
-                            :page-size="article.pageSize" :current-page="article.pageNo" @current-change="pageChange" />
-                    </div>
+                    <el-tabs v-model="type" @tab-click="tabChange">
+                        <el-tab-pane :label="'发帖'" :name="0" />
+                        <el-tab-pane :label="'评论'" :name="1" />
+                        <el-tab-pane :label="'点赞'" :name="2" />
+                    </el-tabs>
+                    <ArticleList :showEdit="type === 0" :loading="loading" :dataSource="article" :description="'暂无帖子'"
+                        @pageChange="pageChange" />
                 </div>
             </div>
         </div>
@@ -109,7 +91,6 @@
 
 <script setup>
 import Avatar from '@/components/Avatar.vue'
-import ArticleItem from '@/components/ArticleItem.vue'
 import EditInfo from './components/EditInfo.vue';
 import PointTable from './components/PointTable.vue';
 
@@ -145,8 +126,8 @@ const pageChange = async (e) => {
     await getArticleList()
 }
 // 标签页切换
-const handleClick = (val) => {
-    type.value = val
+const tabChange = (tab) => {
+    type.value = tab.paneName
     pageNo.value = 1
     loadArticle()
 }
@@ -215,7 +196,7 @@ const handleUpdate = () => {
     editInfoRef.value.showDialog()
 }
 // 数据提交完成，重新获取
-const handleSubmit = ()=>{
+const handleSubmit = () => {
     getUserInfoById()
 }
 
@@ -319,34 +300,6 @@ init()
             .article-part {
                 background-color: #fff;
                 padding: 0 10px 10px;
-
-                .select-part {
-                    width: 100%;
-                    padding: 10px 0;
-                    border-bottom: 1px solid gray;
-
-                    .select-item {
-                        font-size: 16px;
-                        cursor: pointer;
-
-                        &:hover {
-                            font-size: 16px;
-                            color: $color-dark-blue;
-                        }
-                    }
-
-                    .select-active {
-                        color: $color-dark-blue;
-                    }
-                }
-
-                .pagination {
-                    display: flex;
-                    justify-content: flex-start;
-                    align-items: center;
-                    margin-top: 10px;
-                    height: 40px;
-                }
             }
         }
 
