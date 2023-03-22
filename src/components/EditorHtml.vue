@@ -66,9 +66,9 @@ const editorConfig = {
                     // 弹出登录框
                     loginSettingStore.title = settings.loginFormTitle.login
                     loginSettingStore.show = true
+                    proxy.Message.warning('请登录')
                     return
                 }
-                
                 proxy.Message.error(res.info)
             }
         }

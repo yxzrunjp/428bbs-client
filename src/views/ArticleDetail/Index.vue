@@ -158,7 +158,7 @@ const handlePraise = () => {
             articleId: articleId.value
         })
     } else {
-        proxy.Message.warning('请先登录')
+        proxy.Message.warning('请登录')
         // 弹出登录框
         loginSettingStore.title = settings.loginFormTitle.login
         loginSettingStore.show = true

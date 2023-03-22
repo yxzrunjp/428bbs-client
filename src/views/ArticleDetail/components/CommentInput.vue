@@ -81,7 +81,7 @@ const handleSend = () => {
     // 验证是否登录
     const { isLogin } = useCheckLoginHook()
     if (!isLogin) {
-        proxy.Message.warning('请先登录')
+        proxy.Message.warning('请登录')
         return
     }
 

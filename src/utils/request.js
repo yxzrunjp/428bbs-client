@@ -49,9 +49,6 @@ instance.interceptors.response.use((response) => {
         loginSettingStore.show = true
         return Promise.reject('登录超时')
     } else {
-        if (config.errorCallback) {
-            config.errorCallback(data)
-        }
         return Promise.reject(data.info)
     }
 

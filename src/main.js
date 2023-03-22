@@ -37,9 +37,3 @@ app.config.globalProperties.verify = verify
 app.config.globalProperties.Message = Message
 
 app.mount('#app')
-
-// app.config.globalProperties.pagePx = {
-//     mainWidth:1300,
-//     headerHeight:60,
-//     headerAndMainSpace
-// }

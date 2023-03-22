@@ -79,8 +79,8 @@
                         <el-tab-pane :label="'评论'" :name="1" />
                         <el-tab-pane :label="'点赞'" :name="2" />
                     </el-tabs>
-                    <ArticleList :showEdit="type === 0" :loading="loading" :dataSource="article" :description="'暂无帖子'"
-                        @pageChange="pageChange" />
+                    <ArticleList :showEdit="userId === loginUserId && type === 0" :loading="loading" :dataSource="article"
+                        :description="'暂无帖子'" @pageChange="pageChange" />
                 </div>
             </div>
         </div>

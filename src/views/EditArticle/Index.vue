@@ -30,8 +30,7 @@
                         <el-input clearable v-model="formData.title" placeholder="请输入..." />
                     </el-form-item>
                     <el-form-item :label-width="60" label="板块" prop="boardIds">
-                        <el-cascader clearable v-model="formData.boardIds" :options="boardList" :props="boardProps"
-                            @change="handleBoardChange" />
+                        <el-cascader clearable v-model="formData.boardIds" :options="boardList" :props="boardProps" />
                     </el-form-item>
                     <el-form-item :label-width="60" label="封面" prop="cover">
                         <UploadImg @upload="handleUpload" v-model="formData.cover">
@@ -61,7 +60,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, inject, getCurrentInstance, toRefs, onMounted, watchEffect, onBeforeMount } from 'vue'
+import { ref, reactive, inject, getCurrentInstance } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { loadBoard, getUpdateArticleInfo, updateArticle, postArticle } from '@/api/article.js'
 import UploadImg from '@/components/UploadImg.vue'
@@ -242,8 +241,6 @@ const boardProps = {
     value: 'boardId',
     label: 'boardName',
     checkStrictly: true,
-}
-const handleBoardChange = (e) => {
 }
 // 获取能发布的板块信息
 const getBoard = async () => {

@@ -43,7 +43,7 @@
 </template>
 
 <script setup>
-import { onMounted, onBeforeUnmount, reactive, ref, getCurrentInstance } from 'vue';
+import { onMounted, reactive, ref, getCurrentInstance } from 'vue';
 import { login } from '@/api/loginAndRegister.js'
 import md5 from 'js-md5'
 import { useUserInfoStore } from '@/stores/userInfo.js'

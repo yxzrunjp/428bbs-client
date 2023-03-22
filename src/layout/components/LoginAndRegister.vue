@@ -46,19 +46,6 @@ watch(()=>dialogConfig.title,(newV)=>{
         currentOption.value = 'update'
     }
 })
-// 显示弹窗函数
-// const showDialog = (type) => {
-//     currentOption.value = type
-//     if (type === 'login') {
-//         dialogConfig.title = '登录'
-//     } else if (type === 'register') {
-//         dialogConfig.title = '注册'
-//     }
-//     dialogConfig.show = true
-// }
-// defineExpose({
-//     showDialog
-// })
 </script>
 
 <style lang="scss" scoped></style>

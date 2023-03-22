@@ -119,10 +119,6 @@
                             </el-dropdown>
 
                         </div>
-                        <!-- <el-button-group v-else :style="{ marginLeft: '10px' }">
-                            <el-button type="success" plain @click="handleLoginAndRegister('login')">登录</el-button>
-                            <el-button type="success" plain @click="handleLoginAndRegister('register')">注册</el-button>
-                        </el-button-group> -->
                         <Avatar v-else @click="handleLoginAndRegister('login')"
                             :style="{ marginLeft: '10px', cursor: 'pointer' }" :link="false" :size="40" :userId="null">
                         </Avatar>
@@ -165,7 +161,7 @@
 
 <script setup>
 import { useRoute, useRouter } from 'vue-router'
-import { useScrollHiddenHook, useCheckLoginHook } from '@/utils/hooks.js'
+import { useScrollHiddenHook } from '@/utils/hooks.js'
 import LoginAndRegister from './components/LoginAndRegister.vue';
 import { useUserInfoStore } from '@/stores/userInfo.js'
 import { useLoginSettingStore } from '@/stores/loginSetting.js'
@@ -204,12 +200,6 @@ const handleLoginAndRegister = (type) => {
 
 // 发帖
 const handlePublish = () => {
-    const { isLogin } = useCheckLoginHook()
-    if (!isLogin) {
-        // 未登录
-        proxy.Message.warning('请登录')
-        return
-    }
     router.push({ path: '/article' })
 }
 
@@ -221,6 +211,10 @@ const handleLogout = async () => {
             return
         }
         userInfoStore.$reset()
+        if (route.meta.requireLogin) {
+            // 当前所在的页面需要登录权限，回到首页
+            router.push({ path: '/' })
+        }
     })
 }
 

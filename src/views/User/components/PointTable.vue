@@ -27,7 +27,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, watch } from 'vue'
+import { ref, reactive } from 'vue'
 import { loadUserIntegralRecord } from '@/api/user.js'
 const emit = defineEmits(['submit'])
 
