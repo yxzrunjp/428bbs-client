@@ -211,6 +211,7 @@ const handleLogout = async () => {
             return
         }
         userInfoStore.$reset()
+        proxy.VueCookies.remove('userInfo')
         if (route.meta.requireLogin) {
             // 当前所在的页面需要登录权限，回到首页
             router.push({ path: '/' })

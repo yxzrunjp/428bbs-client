@@ -23,7 +23,24 @@ import Message from '@/utils/Message.js'
 
 const app = createApp(App)
 
-app.use(createPinia())
+// 登录信息持久化
+const piniaPlugin = (context) => {
+    if (context.store.$id === 'userInfo') {
+        const store = context.store
+        const userInfo = VueCookies.get('userInfo')
+        store.$patch(userInfo)
+        store.$subscribe((args,state)=>{
+            VueCookies.set('userInfo',{
+                userId:state.userId,
+                nickName:state.nickName,
+            })
+        })
+    }
+}
+const store = createPinia()
+store.use(piniaPlugin)
+
+app.use(store)
 app.use(router)
 
 app.component('Dialog', Dialog)

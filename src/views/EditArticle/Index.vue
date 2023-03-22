@@ -60,14 +60,19 @@
 </template>
 
 <script setup>
-import { ref, reactive, inject, getCurrentInstance } from 'vue'
+import { ref, reactive, inject, getCurrentInstance,defineAsyncComponent } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { loadBoard, getUpdateArticleInfo, updateArticle, postArticle } from '@/api/article.js'
 import UploadImg from '@/components/UploadImg.vue'
 import UploadFile from '@/components/UploadFile.vue'
-import EditorMarkdown from '@/components/EditorMarkdown.vue'
-import EditorHtml from '@/components/EditorHtml.vue'
+
+// import EditorMarkdown from '@/components/EditorMarkdown.vue'
+// import EditorHtml from '@/components/EditorHtml.vue'
 import { Confirm } from '@/utils/Confirm.js'
+
+const EditorMarkdown = defineAsyncComponent(()=>import('@/components/EditorMarkdown.vue'))
+const EditorHtml = defineAsyncComponent(()=>import('@/components/EditorHtml.vue'))
+
 const pagePxStore = inject('pagePxStore')
 const route = useRoute()
 const router = useRouter()
@@ -225,7 +230,7 @@ const handleChangeEditor = () => {
         formData.content = ''
         formData.markdownContent = ''
         // 保存用户所用的编辑器到cookies中
-        proxy.VueCookies.set('editorType', type)
+        proxy.VueCookies.set('editorType', type,'7d')
         formData.editorType = type
     })
 }
