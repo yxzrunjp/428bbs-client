@@ -1,14 +1,14 @@
 <template>
     <template v-if="link">
         <RouterLink :to="`/user/${userId}`">
-            <el-avatar :size="size" :src="`${avatarUrl}/${userId}`" @error="errorHandler">
+            <el-avatar :size="size" :src="userId?`${avatarUrl}/${userId}`:''" @error="errorHandler">
                 <span v-if="userId">头像</span>
                 <span v-else>登录</span>
             </el-avatar>
         </RouterLink>
     </template>
     <template v-else>
-        <el-avatar :size="size" :src="`${avatarUrl}/${userId}`" @error="errorHandler">
+        <el-avatar :size="size" :src="userId?`${avatarUrl}/${userId}`:''" @error="errorHandler">
             <span v-if="userId">头像</span>
             <span class="not-login" v-else>登录</span>
         </el-avatar>
