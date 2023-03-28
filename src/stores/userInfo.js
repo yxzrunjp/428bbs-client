@@ -16,7 +16,7 @@ export const useUserInfoStore = defineStore('userInfo', {
                 downloadAttachment: 0,
             },
             sysInfo:{
-                commentOpen:true,
+                commentOpen:false,
             }
         }
     },
